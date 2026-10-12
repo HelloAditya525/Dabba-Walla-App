@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "882226158974",
+    "firebase_url": "https://dabba-walla-375fd-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "dabba-walla-375fd",
+    "storage_bucket": "dabba-walla-375fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882226158974:android:cd246d3dc4d86d40e1e72f",
+        "android_client_info": {
+          "package_name": "com.dabbawalla.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB98hIET5hkHzjt-PB3K108EWHQGDIn4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
