@@ -32,7 +32,7 @@ export function getFriendlyError(error: unknown): string {
     case "auth/network-request-failed":
       return "No internet connection. Please check your network.";
     case "firestore/permission-denied":
-      return "Couldn't save your profile. Please try again.";
+      return "You don't have permission to do that. Please try again.";
 
     default:
       console.log("AUTH ERROR:", code, error);

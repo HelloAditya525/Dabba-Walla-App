@@ -1,5 +1,7 @@
 // src/app/(customer)/index.tsx
 import React, { useCallback, useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 import {
   View,
   Text,
@@ -21,7 +23,8 @@ export default function CustomerHome() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const router = useRouter();
+  
   const loadPlans = useCallback(async () => {
     setError(null);
     try {
@@ -81,14 +84,29 @@ export default function CustomerHome() {
           {error ? <Text style={styles.error}>{error}</Text> : null}
         </View>
       }
-      renderItem={({ item }) => (
-        <View style={styles.card}>
-          <View style={styles.cardTop}>
-            <Text style={styles.planName}>{item.name}</Text>
-            <Text style={styles.price}>₹{item.price}</Text>
+            renderItem={({ item }) => (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() =>
+            router.push({
+              pathname: "/plan-detail",
+              params: {
+                id: item.id,
+                name: item.name,
+                price: String(item.price),
+                description: item.description,
+              },
+            } as any)
+          }
+        >
+          <View style={styles.card}>
+            <View style={styles.cardTop}>
+              <Text style={styles.planName}>{item.name}</Text>
+              <Text style={styles.price}>₹{item.price}</Text>
+            </View>
+            <Text style={styles.description}>{item.description}</Text>
           </View>
-          <Text style={styles.description}>{item.description}</Text>
-        </View>
+        </TouchableOpacity>
       )}
       ListEmptyComponent={
         error ? null : <Text style={styles.empty}>No plans available yet.</Text>
