@@ -1,4 +1,5 @@
 // src/app/(delivery)/index.tsx
+import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
@@ -18,6 +19,7 @@ import {
 import { getFriendlyError } from "../../utils/errorMessages";
 
 export default function DeliveryHome() {
+  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -98,6 +100,22 @@ export default function DeliveryHome() {
             onPress={() => advance(item)}
             loading={busyId === item.id}
           />
+                    {item.status === "picked_up" ? (
+            <AppButton
+              title="🗺️ Open live map"
+              onPress={() =>
+                router.push({
+                  pathname: "/track",
+                  params: {
+                    id: item.id,
+                    address: item.address,
+                    destLat: String(item.destLat ?? ""),
+                    destLng: String(item.destLng ?? ""),
+                  },
+                } as any)
+              }
+            />
+          ) : null}
         </View>
       )}
       ListEmptyComponent={

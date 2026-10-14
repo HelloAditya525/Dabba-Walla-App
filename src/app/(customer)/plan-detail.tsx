@@ -1,4 +1,5 @@
 // src/app/(customer)/plan-detail.tsx
+import * as Location from "expo-location";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -21,6 +22,8 @@ export default function PlanDetail() {
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [locMsg, setLocMsg] = useState<string | null>(null);
 
   async function handleOrder() {
     if (address.trim().length < 10) {
@@ -33,13 +36,32 @@ export default function PlanDetail() {
     try {
       await placeOrder(
         { id, name, price: Number(price), description },
-        address
+        address,
+        coords
       );
       setDone(true);
     } catch (e) {
       setFormError(getFriendlyError(e));
     } finally {
       setLoading(false);
+    }
+  }
+
+    async function handleUseLocation() {
+    setLocMsg("Getting your location...");
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setLocMsg("Location permission denied.");
+        return;
+      }
+      const loc = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+      setCoords({ lat: loc.coords.latitude, lng: loc.coords.longitude });
+      setLocMsg("Delivery pin saved ✔");
+    } catch {
+      setLocMsg("Couldn't get location. Turn on GPS and try again.");
     }
   }
 
@@ -79,6 +101,14 @@ export default function PlanDetail() {
           onChangeText={setAddress}
           error={addressError}
         />
+                <TouchableOpacity onPress={handleUseLocation} style={{ marginBottom: 16 }}>
+          <Text style={{ color: "#F97316", fontWeight: "700" }}>
+            📍 Use my current location as the delivery pin
+          </Text>
+          {locMsg ? (
+            <Text style={{ color: "#6B7280", marginTop: 4 }}>{locMsg}</Text>
+          ) : null}
+        </TouchableOpacity>
         <AppButton title="Place Order" onPress={handleOrder} loading={loading} />
       </View>
     </ScrollView>

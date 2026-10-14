@@ -10,7 +10,15 @@ import {
   EmailAuthProvider,
   linkWithCredential,
 } from "@react-native-firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "@react-native-firebase/firestore";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp,
+} from "@react-native-firebase/firestore";
+
 import { phoneToEmail, toE164 } from "../utils/validation";
 
 type AuthUser = ReturnType<typeof getAuth>["currentUser"];

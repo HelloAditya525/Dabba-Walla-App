@@ -81,6 +81,14 @@ export default function CustomerHome() {
             Hello{name ? `, ${name}` : ""} 👋
           </Text>
           <Text style={styles.sectionTitle}>Our tiffin plans</Text>
+                    <TouchableOpacity
+            style={{ marginTop: 12 }}
+            onPress={() => router.push("/my-orders" as any)}
+          >
+            <Text style={{ color: "#F97316", fontWeight: "700" }}>
+              📦 My Orders →
+            </Text>
+          </TouchableOpacity>
           {error ? <Text style={styles.error}>{error}</Text> : null}
         </View>
       }
